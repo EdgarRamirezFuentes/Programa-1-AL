@@ -31,6 +31,7 @@ var app = new Vue({
                     this.validateDataArray = [];
                 }else{
                     this.calculate = true;
+                    document.getElementById('chart').style.display='block';
                     this.successAlert('Datos válidos.');
                 }
             }else{
@@ -76,6 +77,7 @@ var app = new Vue({
             this.a22 = '',
             this.b2 = '',
             this.calculate = false;
+            document.getElementById('chart').style.display='none';
         },
     },
     computed: {
