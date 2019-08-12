@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>.: PROGRAMA 1:.</title>
+        <meta name="description" content="
+        Programa #1 de la materia de Álgebra Lineal encargado de dar solución a un sistema de
+        de ecuaciones lineales 2x2 mediante el método de Gauss y la graficación de dicho resultado. 
+        ">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="./node_modules/sweetalert2/dist/sweetalert2.min.css">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <link rel="stylesheet" href="./styles/index.css">
+        
+        <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+        <script src="./node_modules/sweetalert2/dist/sweetalert2.all.min.js"></script>
+    </head>
+    <body>
+        <!--[if lt IE 7]>
+            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+        <h1 class="text-center mt-4">Programa 1 - &Aacute;lgebra Lineal</h1>
+        <h3 class="text-center">Nombre: Edgar Alejandro Ram&iacute;rez Fuentes</h3>
+        <h3 class="text-center">Grupo: 1CV10</h3>
+        <section class="instrucciones container mt-4" >
+            <h3>Instrucciones:</h3>
+            <p class="text-justify">
+                Debajo tiene campos a rellenar (a11, a12, a21, a22, b-1 y b-2) para así poder
+                conocer los valores de P y Q; adem&aacute;s de saber el n&uacute;mero de soluciones
+                que puede tener el sistema de ecuaciones lineales 2x2.<br>
+                <span>Nota: <br>
+                Los campos solo aceptan n&uacute;meros enteros.<br>
+                Ejemplos: 
+                <ul>
+                    <li>3</li>
+                    <li>-4</li>
+                    <li>-3</li>
+                    <li>-256</li>
+                </ul>
+                No aceptar&aacute; valores como los siguientes ejemplos:
+                <ul>
+                    <li>--2</li>
+                    <li>2.0</li>
+                </ul>
+                <span class="font-weight-bold">Si el n&uacute;meroes positivos no agregues el signo '+' porque no lo aceptar&aacute; el sistema.</span><br>
+                <span class="font-weight-bold">De ser incorrecta (o nula) la entrada de un dato no dejar&aacute; continuar para hacer el c&aacute;lculo.</span>
+            </p>
+            <div id="app" class="container mt-3">
+                <h3>Datos:</h3>
+                <div class="row my-3">
+                    <div class="col-md-4 mb-2">
+                        <span class="data-field">A11: <input :disabled='calculate' type="text" placeholder="A11" v-model="a11"> </span>       
+                    </div>
+                    <div class="col-md-4 mb-2">
+                        <span class="data-field">A12: <input :disabled='calculate' type="text" placeholder="A12" v-model="a12"> </span>
+                    </div>
+                    <div class="col-md-4 mb-2">
+                        <span class="data-field">B-1: <input :disabled='calculate' type="text" placeholder="B1" v-model="b1"> </span>
+                    </div>
+                    <div class="col-md-4 mb-2 mt-3">
+                        <span class="data-field">A21: <input :disabled='calculate' type="text" placeholder="A21" v-model="a21"> </span>
+                    </div>
+                    <div class="col-md-4 mb-2 mt-3">
+                        <span class="data-field">A22: <input :disabled='calculate' type="text" placeholder="A22" v-model="a22"> </span>
+                    </div>
+                    <div class="col-md-4 mb-2 mt-3">
+                        <span class="data-field"> B-2:  <input :disabled='calculate' type="text" placeholder="B2" v-model="b2"> </span>
+                    </div>
+                </div>
+                <p v-if='!calculate' id="send" class="btn btn-primary" @click="validateFields(a11,a12,b1,a21,a22,b2)">Calcular</p>
+                <p v-if='calculate' class="btn btn-primary" @click="restartData">Nuevo c&aacute;lculo</p>
+                <div v-if='calculate' class="py-4 container">
+                    <h2 class="text-center">Matr&iacute;z inicial</h2>
+                    <div class="row">
+                        <div class="col-4 py-1 rounded-left border-left border-primary text-center">{{ a11 }}</div>
+                        <div class="col-4 py-1 text-center">{{ a12 }}</div>
+                        <div class="col-4 py-1 rounded-right border-right border-left border-primary text-center">{{ b1 }}</div>
+                        <div class="col-4 py-1 rounded-left border-left border-primary text-center">{{ a21 }}</div>
+                        <div class="col-4 py-1 text-center">{{ a22 }}</div>
+                        <div class="col-4 py-1 rounded-right border-left border-right border-primary text-center">{{ b2 }}</div>
+                    </div>
+                    <h2 class="text-center mt-2">Matr&iacute;z final</h2>
+                    <div class="row">
+                        <div class="col-4 py-1 rounded-left border-left border-primary text-center">{{ a11 }}</div>
+                        <div class="col-4 py-1 text-center">{{ a12 }}</div>
+                        <div class="col-4 py-1 rounded-right border-right border-left border-primary text-center">{{ b1 }}</div>
+                        <div class="col-4 py-1 rounded-left border-left border-primary text-center">0</div>
+                        <div class="col-4 py-1 text-center">{{ p }}</div>
+                        <div class="col-4 py-1 rounded-right border-left border-right border-primary text-center">{{ q }}</div>
+                    </div>
+                    <h2 class="mt-2">Conclusi&oacute;n:</h2>
+                    <p>{{ checkSolutions }}</p>
+                    <div>
+                        <h2 class="mt-2">Gr&aacute;fica</h2>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <div id="chart" class="container"></div>
+        <script src="./scripts/vue.js"></script>
+        <script src="./scripts/index.js"></script>
+    </body>
+</html>
