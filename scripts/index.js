@@ -87,6 +87,10 @@ var app = new Vue({
             this.y = this.q / this.p;
             this.x = (this.b1 - (this.a12 * this.y))/this.a11;
             if(this.p != 0){
+                var x1 = (this.b1 / this.a11); //Posición recta 1, primer punto X= 0 y Y= Cálculo.
+                var y1 = (this.b1 / this.a12*6);// Posición recta 1, segundo punto X= Cálculo Y= 0;
+                var x2 = (this.b2 / this.a22);//Posición recta 2, primer punto X= 0 y Y= Cálculo.
+                var y2 = (Number(this.b2) + Number(((this.a21 * 6) * -1))) / this.a22; //Posición recta 2, primer punto X= 0 y Y= Cálculo.
                 var chart = new CanvasJS.Chart("chart", {
                     animationEnabled: true,
                     theme: "light2",
@@ -99,17 +103,15 @@ var app = new Vue({
                     data: [{        
                         type: "line",       
                         dataPoints: [
-                            { x: 0, y: 0},
-                            { x: this.x , y: this.y ,indexLabel: '(x: '+this.x+', y: '+this.y+')',markerColor: "red", markerType: "triangle"},
-                            {x: this.x+5, y: this.y+5}
+                            { x: 0, y: y1},
+                            { x: x1, y: 0}
                         ]
                     },
                     {        
                         type: "line",       
                         dataPoints: [
-                            { x:this.x+10, y: 0},
-                            { x: this.x , y: this.y,indexLabel: '(x: '+this.x+', y: '+this.y+')',markerColor: "red", markerType: "triangle"},
-                            {x: this.x-5, y: this.y+4}
+                            { x: 0, y: x2},
+                            { x: 6, y: y2}
                         ]
                     }
                 ],
@@ -118,9 +120,71 @@ var app = new Vue({
                 chart.render();
                 return 'Tiene solución única. X= '+ this.x + ' Y= ' + this.y;
             }else if(this.p == 0 && this.q != 0){
+                var x1 = (this.b1 / this.a11); //Posición recta 1, primer punto X= 0 y Y= Cálculo.
+                var y1 = (this.b1 / this.a12);// Posición recta 1, segundo punto X= Cálculo Y= 0;
+                var x2 = (this.b2 / this.a22);//Posición recta 2, primer punto X= 0 y Y= Cálculo.
+                var y2 = (Number(this.b2) + Number(((this.a21 * 6) * -1))) / this.a22; //Posición recta 2, primer punto X= 0 y Y= Cálculo.
+                var chart = new CanvasJS.Chart("chart", {
+                    animationEnabled: true,
+                    theme: "light2",
+                    title:{
+                        text: "No tiene solución"
+                    },
+                    axisY:{
+                        includeZero: false
+                    },
+                    data: [{        
+                        type: "line",       
+                        dataPoints: [
+                            { x: 0, y: y1},
+                            { x: x1, y: 0}
+                        ]
+                    },
+                    {        
+                        type: "line",       
+                        dataPoints: [
+                            { x: 0, y: x2},
+                            { x: 6, y: y2}
+                        ]
+                    }
+                ],
+                    
+                });
+                chart.render();
                 return 'No tiene solución.';
             }else if(this.p == 0 && this.q == 0){
-                return 'Tiene infinidad de soluciones.';
+                var x1 = (this.b1 / this.a11); //Posición recta 1, primer punto X= 0 y Y= Cálculo.
+                var y1 = (this.b1 / this.a12*6);// Posición recta 1, segundo punto X= Cálculo Y= 0;
+                var x2 = (this.b2 / this.a22);//Posición recta 2, primer punto X= 0 y Y= Cálculo.
+                var y2 = (Number(this.b2) + Number(((this.a21 * 3) * -1))) / this.a22; //Posición recta 2, primer punto X= 0 y Y= Cálculo.
+                var chart = new CanvasJS.Chart("chart", {
+                    animationEnabled: true,
+                    theme: "light2",
+                    title:{
+                        text: "Infinidad de soluciones"
+                    },
+                    axisY:{
+                        includeZero: false
+                    },
+                    data: [{        
+                        type: "line",       
+                        dataPoints: [
+                            { x: 0, y: y1},
+                            { x: x1, y: 0}
+                        ]
+                    },
+                    {        
+                        type: "line",       
+                        dataPoints: [
+                            { x: 0, y: x2},
+                            { x: 3, y: y2}
+                        ]
+                    }
+                ],
+                    
+                });
+                chart.render();
+                return 'Tiene infinidad de soluciones.  Despejado = ' + this.b2 + ' + (' + (this.a21 * -1) + 'x) / ' + this.a22;
             }
         },
     },
