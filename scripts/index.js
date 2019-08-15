@@ -87,10 +87,10 @@ var app = new Vue({
             this.y = this.q / this.p;
             this.x = (this.b1 - (this.a12 * this.y))/this.a11;
             if(this.p != 0){
-                var x1 = (this.b1 / this.a11); //Posición recta 1, primer punto X= 0 y Y= Cálculo.
-                var y1 = (this.b1 / this.a12*6);// Posición recta 1, segundo punto X= Cálculo Y= 0;
-                var x2 = (this.b2 / this.a22);//Posición recta 2, primer punto X= 0 y Y= Cálculo.
-                var y2 = (Number(this.b2) + Number(((this.a21 * 6) * -1))) / this.a22; //Posición recta 2, primer punto X= 0 y Y= Cálculo.
+                var punto1Recta1 = (this.b1 / this.a12);
+                var punto2Recta1 = (this.b1 / this.a11);
+                var punto1Recta2 = (this.b2 / this.a22);
+                var punto2Recta2 = ((((Number(this.a21)) * (punto1Recta1 + 20)) * -1) + Number(this.b2)) / Number(this.a22);
                 var chart = new CanvasJS.Chart("chart", {
                     animationEnabled: true,
                     theme: "light2",
@@ -103,27 +103,34 @@ var app = new Vue({
                     data: [{        
                         type: "line",       
                         dataPoints: [
-                            { x: 0, y: y1},
-                            { x: x1, y: 0}
+                            { x: 0, y: punto1Recta1},
+                            { x: punto2Recta1, y: 0}
                         ]
                     },
                     {        
                         type: "line",       
                         dataPoints: [
-                            { x: 0, y: x2},
-                            { x: 6, y: y2}
+                            { x: 0, y: punto1Recta2},
+                            // { x: punto2Recta2, y: 0},
+                            { x: (punto1Recta1 + 20), y: punto2Recta2}
                         ]
-                    }
+                    },
+                    {        
+                        type: "line",       
+                        dataPoints: [
+                            { x: this.x, y: this.y},
+                        ]
+                    },
                 ],
                     
                 });
                 chart.render();
                 return 'Tiene solución única. X= '+ this.x + ' Y= ' + this.y;
             }else if(this.p == 0 && this.q != 0){
-                var x1 = (this.b1 / this.a11); //Posición recta 1, primer punto X= 0 y Y= Cálculo.
-                var y1 = (this.b1 / this.a12);// Posición recta 1, segundo punto X= Cálculo Y= 0;
-                var x2 = (this.b2 / this.a22);//Posición recta 2, primer punto X= 0 y Y= Cálculo.
-                var y2 = (Number(this.b2) + Number(((this.a21 * 6) * -1))) / this.a22; //Posición recta 2, primer punto X= 0 y Y= Cálculo.
+                var punto1Recta1 = (this.b1 / this.a12); //Posición recta 1, primer punto X= 0 y Y= Cálculo.
+                var punto2Recta1 = (this.b1 / this.a11);// Posición recta 1, segundo punto X= Cálculo Y= 0;
+                var punto1Recta2 = (this.b2 / this.a22);//Posición recta 2, primer punto X= 0 y Y= Cálculo.
+                var punto2Recta2 = (this.b2 / this.a21) //Posición recta 2, primer punto X= 0 y Y= Cálculo.
                 var chart = new CanvasJS.Chart("chart", {
                     animationEnabled: true,
                     theme: "light2",
@@ -136,15 +143,15 @@ var app = new Vue({
                     data: [{        
                         type: "line",       
                         dataPoints: [
-                            { x: 0, y: y1},
-                            { x: x1, y: 0}
+                            { x: 0, y: punto1Recta1},
+                            { x: punto2Recta1, y: 0}
                         ]
                     },
                     {        
                         type: "line",       
                         dataPoints: [
-                            { x: 0, y: x2},
-                            { x: 6, y: y2}
+                            { x: 0, y: punto1Recta2},
+                            { x: punto2Recta2, y: 0}
                         ]
                     }
                 ],
@@ -153,10 +160,10 @@ var app = new Vue({
                 chart.render();
                 return 'No tiene solución.';
             }else if(this.p == 0 && this.q == 0){
-                var x1 = (this.b1 / this.a11); //Posición recta 1, primer punto X= 0 y Y= Cálculo.
-                var y1 = (this.b1 / this.a12*6);// Posición recta 1, segundo punto X= Cálculo Y= 0;
-                var x2 = (this.b2 / this.a22);//Posición recta 2, primer punto X= 0 y Y= Cálculo.
-                var y2 = (Number(this.b2) + Number(((this.a21 * 3) * -1))) / this.a22; //Posición recta 2, primer punto X= 0 y Y= Cálculo.
+                var punto1Recta1 = (this.b1 / this.a12); //Posición recta 1, primer punto X= 0 y Y= Cálculo.
+                var punto2Recta1 = (this.b1 / this.a11);// Posición recta 1, segundo punto X= Cálculo Y= 0;
+                var punto1Recta2 = (this.b2 / this.a22);//Posición recta 2, primer punto X= 0 y Y= Cálculo.
+                var punto2Recta2 = (this.b2 / this.a21) //Posición recta 2, primer punto X= 0 y Y= Cálculo.
                 var chart = new CanvasJS.Chart("chart", {
                     animationEnabled: true,
                     theme: "light2",
@@ -169,15 +176,15 @@ var app = new Vue({
                     data: [{        
                         type: "line",       
                         dataPoints: [
-                            { x: 0, y: y1},
-                            { x: x1, y: 0}
+                            { x: 0, y: punto1Recta1},
+                            { x: punto2Recta1, y: 0}
                         ]
                     },
                     {        
                         type: "line",       
                         dataPoints: [
-                            { x: 0, y: x2},
-                            { x: 3, y: y2}
+                            { x: 0, y: punto1Recta2},
+                            { x: punto2Recta2, y: 0}
                         ]
                     }
                 ],
